@@ -15,7 +15,7 @@ public class AuditorAwareImpl implements AuditorAware<String> {
 
         String email = "";
         if(authentication != null) {
-            // 여기서 getName은 principalService에 이메일로 설정하면 그걸 가져온다.
+            // 여기서 getName은 principalDetails에 이메일로 설정하면 그걸 가져온다.
             email = authentication.getName();
         }
         return Optional.of(email);
