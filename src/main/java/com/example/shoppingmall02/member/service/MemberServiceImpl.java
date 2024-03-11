@@ -1,6 +1,7 @@
 package com.example.shoppingmall02.member.service;
 
 import com.example.shoppingmall02.config.jwt.JwtProvider;
+import com.example.shoppingmall02.exception.member.MemberException;
 import com.example.shoppingmall02.jwt.repository.TokenRepository;
 import com.example.shoppingmall02.member.domain.RequestMemberDTO;
 import com.example.shoppingmall02.member.domain.ResponseMemberDTO;
@@ -13,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -39,17 +42,46 @@ public class MemberServiceImpl implements MemberService{
     // 회원 가입
     @Override
     public ResponseEntity<?> signUp(RequestMemberDTO requestMemberDTO) {
-        return null;
+        String encode = passwordEncoder.encode(requestMemberDTO.getMemberPw());
+
+        try {
+            MemberEntity member = MemberEntity.save(requestMemberDTO, encode);
+            MemberEntity saveMember = memberRepository.save(member);
+
+            ResponseMemberDTO responseMemberDTO = ResponseMemberDTO.changeDTO(saveMember);
+            return ResponseEntity.ok().body(responseMemberDTO);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @Override
     public ResponseMemberDTO search(Long memberId) {
-        return null;
+        try {
+            MemberEntity findMember = memberRepository.findById(memberId)
+                    .orElseThrow(() -> new EntityNotFoundException("회원이 존재하지 않습니다."));
+
+            return ResponseMemberDTO.changeDTO(findMember);
+        } catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException(e.getMessage());
+        }
     }
 
     @Override
     public String removeUser(Long memberId, String email) {
-        return null;
+        try {
+            MemberEntity findMember = memberRepository.findByMemberEmail(email);
+
+            if(findMember.getMemberId().equals(memberId)) {
+                memberRepository.deleteById(memberId);
+                return "회원 탈퇴 완료";
+            } else {
+                return "해당 유저가 아니라 삭제할 수 없습니다.";
+            }
+        } catch (Exception e) {
+            throw new MemberException("회원 탈퇴하는데 실패했습니다.");
+        }
     }
 
     @Override

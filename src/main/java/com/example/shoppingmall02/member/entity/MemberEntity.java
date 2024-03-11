@@ -37,10 +37,10 @@ public class MemberEntity extends BaseEntity {
     private AddressEntity address;
 
     // 저장
-    public static MemberEntity save(RequestMemberDTO member) {
+    public static MemberEntity save(RequestMemberDTO member, String encode) {
         return MemberEntity.builder()
                 .memberEmail(member.getMemberEmail())
-                .memberPw(member.getMemberPw())
+                .memberPw(encode)
                 .memberName(member.getMemberName())
                 .memberNickName(member.getMemberNickName())
                 .memberRole(member.getMemberRole())
