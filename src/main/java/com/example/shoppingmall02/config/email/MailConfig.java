@@ -29,12 +29,18 @@ public class MailConfig {
 
     private Properties getProperties() {
         Properties properties = new Properties();
-        properties.setProperty("mail.transport.protocol", "smtp"); // 프로토콜 설정
-        properties.setProperty("mail.smtp.auth", "true"); // smtp 인증
-        properties.setProperty("mail.smtp.starttls.enable", "true"); // smtp strattles 사용
-        properties.setProperty("mail.debug", "true"); // 디버그 사용
-        properties.setProperty("mail.smtp.ssl.trust", "smtp.naver.com"); // ssl 인증 서버 (smtp 서버명)
-        properties.setProperty("mail.smtp.ssl.enable", "true"); // ssl 사용
+        // 프로토콜 설정
+        properties.setProperty("mail.transport.protocol", "smtp");
+        // smtp 인증
+        properties.setProperty("mail.smtp.auth", "true");
+        // smtp strattles 사용
+        properties.setProperty("mail.smtp.starttls.enable", "true");
+        // 디버그 사용
+        properties.setProperty("mail.debug", "true");
+        // ssl 인증 서버 (smtp 서버명)
+        properties.setProperty("mail.smtp.ssl.trust", "smtp.naver.com");
+        // ssl 사용
+        properties.setProperty("mail.smtp.ssl.enable", "true");
         return properties;
     }
 }
