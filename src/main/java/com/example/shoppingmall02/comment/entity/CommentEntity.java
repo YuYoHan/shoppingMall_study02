@@ -5,6 +5,7 @@ import com.example.shoppingmall02.comment.domain.CommentSecret;
 import com.example.shoppingmall02.comment.domain.RequestCommentDTO;
 import com.example.shoppingmall02.comment.domain.ResponseCommentDTO;
 import com.example.shoppingmall02.config.auditing.entity.BaseEntity;
+import com.example.shoppingmall02.item.entity.ItemEntity;
 import com.example.shoppingmall02.member.entity.MemberEntity;
 import lombok.*;
 
@@ -32,6 +33,10 @@ public class CommentEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private BoardEntity board;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id")
+    private ItemEntity item;
 
     // DTO를 엔티티로 변환
     public static CommentEntity changeEntity(ResponseCommentDTO comment,
