@@ -4,6 +4,7 @@ import com.example.shoppingmall02.config.auditing.entity.BaseEntity;
 import com.example.shoppingmall02.member.domain.AddressDTO;
 import com.example.shoppingmall02.member.domain.RequestMemberDTO;
 import com.example.shoppingmall02.member.domain.ResponseMemberDTO;
+import com.example.shoppingmall02.member.domain.UpdateMemberDTO;
 import com.example.shoppingmall02.member.role.Auth;
 import lombok.*;
 
@@ -33,6 +34,8 @@ public class MemberEntity extends BaseEntity {
     @Column(nullable = false)
     private Auth memberRole;
 
+    private int point;
+
     @Embedded
     private AddressEntity address;
 
@@ -53,6 +56,27 @@ public class MemberEntity extends BaseEntity {
                                 ? null : member.getMemberAddress().getMemberZipCode())
                         .build())
                 .build();
+    }
+
+    // 업데이트
+    public void updateMember(UpdateMemberDTO member, String encodePw) {
+        this.memberPw = member.getMemberPw() == null
+                ? this.memberPw : encodePw;
+        this.memberNickName = member.getMemberNickName() == null
+                ? this.memberNickName : member.getMemberNickName();
+
+        if(member.getMemberAddress() != null) {
+            this.address = AddressEntity.builder()
+                    .memberAddr(member.getMemberAddress().getMemberAddr())
+                    .memberAddrDetail(member.getMemberAddress().getMemberAddrDetail())
+                    .memberZipCode(member.getMemberAddress().getMemberZipCode())
+                    .build();
+        }
+    }
+
+    // 포인트 추가
+    public void addPoint(int point) {
+        this.point += point;
     }
 
 }
