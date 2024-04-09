@@ -35,8 +35,6 @@ public class TokenEntity extends BaseTimeEntity {
 
     // 토큰 업데이트
     public void updateToken(ResponseTokenDTO token) {
-        this.grantType = token.getGrantType();
         this.accessToken = token.getAccessToken();
-        this.refreshToken = token.getRefreshToken();
     }
 }
