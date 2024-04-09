@@ -1,5 +1,6 @@
 package com.example.shoppingmall02.member.controller;
 
+import com.example.shoppingmall02.exception.validation.DataValidationException;
 import com.example.shoppingmall02.member.domain.LoginMemberDTO;
 import com.example.shoppingmall02.member.domain.RequestMemberDTO;
 import com.example.shoppingmall02.member.domain.ResponseMemberDTO;
@@ -30,8 +31,8 @@ public class MemberController {
         try {
             // 검증 예외가 발생하면 예외 메시지를 호출
             if(result.hasErrors()) {
-                log.error("검증 예외 발생 : " + result.hasErrors());
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result.getClass().getSimpleName());
+                log.error("검증 예외 발생 : " + result.getClass().getSimpleName());
+                throw new DataValidationException(result.getClass().getSimpleName());
             }
 
             ResponseEntity<?> responseEntity = memberService.signUp(member);

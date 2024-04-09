@@ -1,11 +1,17 @@
 package com.example.shoppingmall02.exception;
 
-import com.example.shoppingmall.domain.board.exception.BoardException;
-import com.example.shoppingmall.domain.cart.exception.CartException;
-import com.example.shoppingmall.domain.comment.exception.CommentException;
-import com.example.shoppingmall.domain.item.exception.ItemException;
-import com.example.shoppingmall.domain.member.exception.UserException;
-import com.example.shoppingmall.domain.order.exception.OrderException;
+import com.example.shoppingmall02.exception.board.BoardException;
+import com.example.shoppingmall02.exception.cart.CartException;
+import com.example.shoppingmall02.exception.comment.CommentException;
+import com.example.shoppingmall02.exception.externalService.ExternalServiceException;
+import com.example.shoppingmall02.exception.file.FileDownloadException;
+import com.example.shoppingmall02.exception.file.FileUploadException;
+import com.example.shoppingmall02.exception.item.ItemException;
+import com.example.shoppingmall02.exception.member.MemberException;
+import com.example.shoppingmall02.exception.order.OrderException;
+import com.example.shoppingmall02.exception.sessionExpire.SessionExpiredException;
+import com.example.shoppingmall02.exception.stock.OutOfStockException;
+import com.example.shoppingmall02.exception.validation.DataValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,8 +33,8 @@ public class GlobalExceptionAdvice {
     }
 
     // 유저를 못찾을 경우 발생하는 예외처리
-    @ExceptionHandler(UserException.class )
-    public ResponseEntity<UserException> handleCustomException(UserException userException) {
+    @ExceptionHandler(MemberException.class )
+    public ResponseEntity<MemberException> handleCustomException(MemberException userException) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userException);
     }
 

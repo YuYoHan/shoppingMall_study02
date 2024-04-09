@@ -1,4 +1,4 @@
-package com.example.shoppingmall02.exception;
+package com.example.shoppingmall02.exception.file;
 /*
  *   writer : 유요한
  *   work :
