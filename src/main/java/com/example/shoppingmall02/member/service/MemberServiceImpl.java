@@ -162,8 +162,8 @@ public class MemberServiceImpl implements MemberService{
             } else {
                 throw new MemberException("회원 정보가 일치하지 않습니다.");
             }
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-
-
 }
