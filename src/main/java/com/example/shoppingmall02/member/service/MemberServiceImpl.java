@@ -1,5 +1,6 @@
 package com.example.shoppingmall02.member.service;
 
+import com.example.shoppingmall02.board.repository.BoardRepository;
 import com.example.shoppingmall02.config.jwt.JwtProvider;
 import com.example.shoppingmall02.exception.member.MemberException;
 import com.example.shoppingmall02.jwt.domain.ResponseTokenDTO;
@@ -36,6 +37,7 @@ public class MemberServiceImpl implements MemberService{
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final TokenRepository tokenRepository;
+    private final BoardRepository boardRepository;
 
     @Override
     public boolean emailCheck(String email) {
@@ -84,6 +86,9 @@ public class MemberServiceImpl implements MemberService{
             MemberEntity findMember = memberRepository.findByMemberEmail(email);
 
             if(findMember.getMemberId().equals(memberId)) {
+                // 유저에 관련된 모든 게시글 삭제
+                boardRepository.deleteAllByMemberMemberId(memberId);
+                // 유저 삭제
                 memberRepository.deleteById(memberId);
                 return "회원 탈퇴 완료";
             } else {
