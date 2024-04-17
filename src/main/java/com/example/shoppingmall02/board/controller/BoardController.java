@@ -81,6 +81,19 @@ public class BoardController {
         return ResponseEntity.ok().body(response);
     }
 
+
+    // 나의 문의글
+    @GetMapping("/myBoards")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> getMyBoards(@AuthenticationPrincipal UserDetails userDetails,
+                                         Pageable pageable,
+                                         String search) {
+        String email = userDetails.getUsername();
+        Page<ResponseBoardDTO> boards = boardService.getMyBoards(email, pageable, search);
+        Map<String, Object> response = pageInfo(boards);
+        return ResponseEntity.ok().body(response);
+    }
+
     private static Map<String, Object> pageInfo(Page<ResponseBoardDTO> boards) {
         Map<String, Object> response = new HashMap<>();
         // 현재 페이지의 아이템 목록
@@ -100,17 +113,5 @@ public class BoardController {
         // 마지막 페이지 여부
         response.put("isLastPage", boards.isLast());
         return response;
-    }
-
-    // 나의 문의글
-    @GetMapping("/myBoards")
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> getMyBoards(@AuthenticationPrincipal UserDetails userDetails,
-                                         Pageable pageable,
-                                         String search) {
-        String email = userDetails.getUsername();
-        Page<ResponseBoardDTO> boards = boardService.getMyBoards(email, pageable, search);
-        Map<String, Object> response = pageInfo(boards);
-        return ResponseEntity.ok().body(response);
     }
 }
