@@ -1,0 +1,4 @@
+# 임베디드 DB(메모리)사용
+spring:
+  datasource:
+    generate-unique-name: true

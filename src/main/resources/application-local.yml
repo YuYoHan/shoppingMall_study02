@@ -71,4 +71,4 @@ spring:
 
 ---
   file:
-    path: "C:\\upload\\file\\"
+    path: "c:/upload/file/"
